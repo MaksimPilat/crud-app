@@ -8,15 +8,15 @@ CREATE TABLE areas(
 TRUNCATE TABLE areas;
 DROP TABLE areas;
 
-CREATE TABLE equipment(
+CREATE TABLE equipments(
   id SERIAL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
   area_id INT NOT NULL,
   is_working BOOLEAN NOT NULL
 );
 
-TRUNCATE TABLE equipment;
-DROP TABLE equipment;
+TRUNCATE TABLE equipments;
+DROP TABLE equipments;
 
 CREATE TABLE inspections(
   id SERIAL PRIMARY KEY,

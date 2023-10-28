@@ -20,7 +20,7 @@ export const addEquipmentToDatabase = async ({
     }
 
     const equipmentQueryText = `
-      INSERT INTO equipment (name, area_id, is_working)
+      INSERT INTO equipments (name, area_id, is_working)
       VALUES ($1, $2, $3)
       RETURNING
         id,
@@ -29,7 +29,7 @@ export const addEquipmentToDatabase = async ({
         (
           SELECT areas.name
           FROM areas
-          WHERE areas.id = equipment.area_id
+          WHERE areas.id = equipments.area_id
         ) AS "areaName",
         is_working as "isWorking";
     `;
@@ -42,23 +42,25 @@ export const addEquipmentToDatabase = async ({
   }
 };
 
-export const getAllEquipmentsFromDatabase = async (isWorking?: boolean): Promise<IFetchedEquipment[]> => {
+export const getAllEquipmentsFromDatabase = async (
+  isWorking?: boolean
+): Promise<IFetchedEquipment[]> => {
   let queryText = `
     SELECT
-      equipment.id,
-      equipment.name,
-      equipment.area_id AS "areaId",
+      equipments.id,
+      equipments.name,
+      equipments.area_id AS "areaId",
       areas.name AS "areaName",
-      equipment.is_working AS "isWorking"
+      equipments.is_working AS "isWorking"
     FROM
-      equipment
+      equipments
     JOIN
-      areas ON areas.id = equipment.area_id
+      areas ON areas.id = equipments.area_id
   `;
   const queryValues = [];
 
   if (isWorking !== undefined) {
-    queryText += ` WHERE equipment.is_working = $1`;
+    queryText += ` WHERE equipments.is_working = $1`;
     queryValues.push(isWorking);
   }
 
@@ -70,20 +72,22 @@ export const getAllEquipmentsFromDatabase = async (isWorking?: boolean): Promise
   }
 };
 
-export const getEquipmentFromDatabase = async (id: number): Promise<IFetchedEquipment> => {
+export const getEquipmentFromDatabase = async (
+  id: number
+): Promise<IFetchedEquipment> => {
   const queryText = `
     SELECT
-      equipment.id,
-      equipment.name,
-      equipment.area_id AS "areaId",
+      equipments.id,
+      equipments.name,
+      equipments.area_id AS "areaId",
       (
         SELECT areas.name
         FROM areas
-        WHERE areas.id = equipment.area_id
+        WHERE areas.id = equipments.area_id
       ) AS "areaName",
-      equipment.is_working AS "isWorking"
+      equipments.is_working AS "isWorking"
     FROM
-      equipment
+      equipments
     WHERE
       id = $1
   `;
@@ -97,20 +101,22 @@ export const getEquipmentFromDatabase = async (id: number): Promise<IFetchedEqui
   }
 };
 
-export const getEquipmentsByAreaIdFromDatabase = async (areaId: number): Promise<IFetchedEquipment[]> => {
+export const getEquipmentsByAreaIdFromDatabase = async (
+  areaId: number
+): Promise<IFetchedEquipment[]> => {
   let queryText = `
     SELECT
-      equipment.id,
-      equipment.name,
-      equipment.area_id AS "areaId",
+      equipments.id,
+      equipments.name,
+      equipments.area_id AS "areaId",
       areas.name AS "areaName",
-      equipment.is_working AS "isWorking"
+      equipments.is_working AS "isWorking"
     FROM
-      equipment
+      equipments
     JOIN
-      areas ON areas.id = equipment.area_id
+      areas ON areas.id = equipments.area_id
     WHERE
-    equipment.area_id = $1
+    equipments.area_id = $1
   `;
   const queryValues = [areaId];
 
@@ -122,9 +128,14 @@ export const getEquipmentsByAreaIdFromDatabase = async (areaId: number): Promise
   }
 };
 
-export const updateEquipmentInDatabase = async ({ id, name, areaId, isWorking }: IEquipment): Promise<void> => {
+export const updateEquipmentInDatabase = async ({
+  id,
+  name,
+  areaId,
+  isWorking,
+}: IEquipment): Promise<void> => {
   const queryText = `
-    UPDATE equipment
+    UPDATE equipments
     SET
       name = $1,
       area_id = $2,
@@ -140,9 +151,11 @@ export const updateEquipmentInDatabase = async ({ id, name, areaId, isWorking }:
   }
 };
 
-export const deleteEquipmentFromDatabase = async (id: number): Promise<void> => {
+export const deleteEquipmentFromDatabase = async (
+  id: number
+): Promise<void> => {
   const queryText = `
-    DELETE FROM equipment
+    DELETE FROM equipments
     WHERE id = $1
   `;
   const queryValues = [id];
@@ -154,9 +167,11 @@ export const deleteEquipmentFromDatabase = async (id: number): Promise<void> => 
   }
 };
 
-export const deleteEquipmentBatchFromDatabase = async (ids: number[]): Promise<void> => {
+export const deleteEquipmentBatchFromDatabase = async (
+  ids: number[]
+): Promise<void> => {
   const queryText = `
-    DELETE FROM equipment
+    DELETE FROM equipments
     WHERE id = ANY($1)
   `;
   const queryValues = [ids];

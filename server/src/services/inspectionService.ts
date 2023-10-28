@@ -10,7 +10,7 @@ export const addInspectionToDatabase = async ({
 }: Omit<IInspection, "id">): Promise<IFetchedInspection> => {
   const equipmentQueryText = `
     SELECT id
-    FROM equipment
+    FROM equipments
     WHERE id = $1
   `;
   const equipmentQueryValues = [equipmentId];

@@ -4,7 +4,9 @@ export interface IEmployee {
   position: string;
 }
 
-export const addEmployee = async (reqData: Omit<IEmployee, "id">): Promise<IEmployee> => {
+export const addEmployee = async (
+  reqData: Omit<IEmployee, "id">
+): Promise<IEmployee> => {
   try {
     const res: Response = await fetch(`http://localhost:3001/api/employees/`, {
       method: "POST",
@@ -30,15 +32,22 @@ export const getAllEmployees = async (): Promise<IEmployee[]> => {
   }
 };
 
-export const updateEmployee = async ({ id, name }: IEmployee): Promise<void> => {
+export const updateEmployee = async ({
+  id,
+  name,
+  position,
+}: IEmployee): Promise<void> => {
   try {
-    const res: Response = await fetch(`http://localhost:3001/api/employees/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name } as Omit<IEmployee, "id">),
-    });
+    const res: Response = await fetch(
+      `http://localhost:3001/api/employees/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, position } as Omit<IEmployee, "id">),
+      }
+    );
   } catch (err) {
     throw err;
   }
@@ -46,12 +55,15 @@ export const updateEmployee = async ({ id, name }: IEmployee): Promise<void> => 
 
 export const deleteEmployee = async (id: number): Promise<void> => {
   try {
-    const res: Response = await fetch(`http://localhost:3001/api/employees/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res: Response = await fetch(
+      `http://localhost:3001/api/employees/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   } catch (err) {
     throw err;
   }
