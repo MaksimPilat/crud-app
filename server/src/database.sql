@@ -12,7 +12,8 @@ CREATE TABLE equipments(
   id SERIAL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
   area_id INT NOT NULL,
-  is_working BOOLEAN NOT NULL
+  is_working BOOLEAN NOT NULL,
+  FOREIGN KEY (area_id) REFERENCES areas (id)
 );
 
 TRUNCATE TABLE equipments;
@@ -24,7 +25,9 @@ CREATE TABLE inspections(
   equipment_id INT NOT NULL,
   employee_id INT NOT NULL,
   result BOOLEAN NOT NULL,
-  cause_of_failure VARCHAR(50)
+  cause_of_failure VARCHAR(50),
+  FOREIGN KEY (equipment_id) REFERENCES equipments (id),
+  FOREIGN KEY (employee_id) REFERENCES employees (id)
 );
 
 TRUNCATE TABLE inspections;
