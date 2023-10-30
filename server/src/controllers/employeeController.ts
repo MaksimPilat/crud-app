@@ -4,12 +4,8 @@ import {
   getAllEmployeesFromDatabase,
   updateEmployeeInDatabase,
   deleteEmployeeFromDatabase,
-  getInspectionsByEmployeeIdFromDatabase,
-  deleteInspectionBatchFromDatabase,
 } from "@services";
-import { IEmployee, IFetchedInspection } from "@types";
-import { pool } from "db";
-import { PoolClient } from "pg";
+import { IEmployee } from "@types";
 
 export const addEmployee = async (req: Request, res: Response) => {
   const { name, position }: Omit<IEmployee, "id"> = req.body;
