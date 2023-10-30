@@ -20,6 +20,7 @@ export const addEquipmentToDatabase = async ({
       ) AS "areaName",
       is_working as "isWorking";
   `;
+
   const equipmentQueryValues = [name, areaId, isWorking];
 
   try {

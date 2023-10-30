@@ -55,25 +55,11 @@ export const deleteEmployee = async (req: Request, res: Response) => {
     return res.status(400).json({ error: "Invalid equipment ID" });
   }
 
-  const client: PoolClient = await pool.connect();
-
   try {
-    client.query("BEGIN");
-
-    const inspections: IFetchedInspection[] = await getInspectionsByEmployeeIdFromDatabase(id);
-    const inspectionIds = inspections.map((item) => item.id);
-    await deleteInspectionBatchFromDatabase(inspectionIds);
-
     await deleteEmployeeFromDatabase(id);
-
-    client.query("COMMIT");
-
     res.status(200).json("Employee was deleted successfully!");
   } catch (err) {
-    await client.query("ROLLBACK");
     res.status(500).json({ error: (err as Error).message });
     throw err;
-  } finally {
-    client.release();
   }
 };

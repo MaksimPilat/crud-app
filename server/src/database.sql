@@ -26,8 +26,8 @@ CREATE TABLE inspections(
   employee_id INT NOT NULL,
   result BOOLEAN NOT NULL,
   cause_of_failure VARCHAR(50),
-  FOREIGN KEY (equipment_id) REFERENCES equipments (id),
-  FOREIGN KEY (employee_id) REFERENCES employees (id)
+  FOREIGN KEY (equipment_id) REFERENCES equipments (id) ON DELETE CASCADE,
+  FOREIGN KEY (employee_id) REFERENCES employees (id) ON DELETE CASCADE
 );
 
 TRUNCATE TABLE inspections;
