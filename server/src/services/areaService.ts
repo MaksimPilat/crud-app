@@ -8,6 +8,7 @@ export const addAreaToDatabase = async (name: string): Promise<IArea> => {
     RETURNING *
   `;
   const queryValues = [name];
+
   try {
     const result = await pool.query(queryText, queryValues);
     return result.rows[0];
@@ -21,6 +22,7 @@ export const getAllAreasFromDatabase = async (): Promise<IArea[]> => {
     SELECT id, name
     FROM areas;
   `;
+
   try {
     const result = await pool.query(queryText);
     return result.rows;
@@ -36,6 +38,7 @@ export const updateAreaInDatabase = async ({ id, name }: IArea): Promise<void> =
     WHERE id = $2
   `;
   const queryValues = [name, id];
+
   try {
     await pool.query(queryText, queryValues);
   } catch (err) {
@@ -49,6 +52,7 @@ export const deleteAreaFromDatabase = async (id: number): Promise<void> => {
     WHERE id = $1
   `;
   const queryValues = [id];
+
   try {
     await pool.query(queryText, queryValues);
   } catch (err) {

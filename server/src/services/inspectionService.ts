@@ -8,20 +8,6 @@ export const addInspectionToDatabase = async ({
   result,
   causeOfFailure,
 }: Omit<IInspection, "id">): Promise<IFetchedInspection> => {
-  const equipmentQueryText = `
-    SELECT id
-    FROM equipments
-    WHERE id = $1
-  `;
-  const equipmentQueryValues = [equipmentId];
-
-  const employeeQueryText = `
-    SELECT id
-    FROM employees
-    WHERE id = $1
-  `;
-  const employeeQueryValues = [employeeId];
-
   const queryText = `
     INSERT
     INTO inspections (date, equipment_id, employee_id, result, cause_of_failure)
@@ -42,16 +28,6 @@ export const addInspectionToDatabase = async ({
   const queryValues = [date, equipmentId, employeeId, result, causeOfFailure];
 
   try {
-    const equipmentResult = await pool.query(equipmentQueryText, equipmentQueryValues);
-    if (equipmentResult.rows.length === 0) {
-      throw new Error(`Equipment with id ${equipmentId} does not exist.`);
-    }
-
-    const employeeResult = await pool.query(employeeQueryText, employeeQueryValues);
-    if (employeeResult.rows.length === 0) {
-      throw new Error(`Employee with id ${employeeId} does not exist.`);
-    }
-
     const result = await pool.query(queryText, queryValues);
     return result.rows[0];
   } catch (err) {

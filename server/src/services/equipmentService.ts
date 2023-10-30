@@ -6,35 +6,23 @@ export const addEquipmentToDatabase = async ({
   areaId,
   isWorking,
 }: Omit<IEquipment, "id">): Promise<IFetchedEquipment> => {
-  const areaQueryText = `
-    SELECT id
-    FROM areas
-    WHERE id = $1
+  const equipmentQueryText = `
+    INSERT INTO equipments (name, area_id, is_working)
+    VALUES ($1, $2, $3)
+    RETURNING
+      id,
+      name,
+      area_id as "areaId",
+      (
+        SELECT areas.name
+        FROM areas
+        WHERE areas.id = equipments.area_id
+      ) AS "areaName",
+      is_working as "isWorking";
   `;
-  const areaQueryValues = [areaId];
+  const equipmentQueryValues = [name, areaId, isWorking];
 
   try {
-    const areaResult = await pool.query(areaQueryText, areaQueryValues);
-    if (areaResult.rows.length === 0) {
-      throw new Error(`Area with id ${areaId} does not exist.`);
-    }
-
-    const equipmentQueryText = `
-      INSERT INTO equipments (name, area_id, is_working)
-      VALUES ($1, $2, $3)
-      RETURNING
-        id,
-        name,
-        area_id as "areaId",
-        (
-          SELECT areas.name
-          FROM areas
-          WHERE areas.id = equipments.area_id
-        ) AS "areaName",
-        is_working as "isWorking";
-    `;
-    const equipmentQueryValues = [name, areaId, isWorking];
-
     const result = await pool.query(equipmentQueryText, equipmentQueryValues);
     return result.rows[0];
   } catch (err) {
@@ -42,9 +30,7 @@ export const addEquipmentToDatabase = async ({
   }
 };
 
-export const getAllEquipmentsFromDatabase = async (
-  isWorking?: boolean
-): Promise<IFetchedEquipment[]> => {
+export const getAllEquipmentsFromDatabase = async (isWorking?: boolean): Promise<IFetchedEquipment[]> => {
   let queryText = `
     SELECT
       equipments.id,
@@ -72,9 +58,7 @@ export const getAllEquipmentsFromDatabase = async (
   }
 };
 
-export const getEquipmentFromDatabase = async (
-  id: number
-): Promise<IFetchedEquipment> => {
+export const getEquipmentFromDatabase = async (id: number): Promise<IFetchedEquipment> => {
   const queryText = `
     SELECT
       equipments.id,
@@ -101,9 +85,7 @@ export const getEquipmentFromDatabase = async (
   }
 };
 
-export const getEquipmentsByAreaIdFromDatabase = async (
-  areaId: number
-): Promise<IFetchedEquipment[]> => {
+export const getEquipmentsByAreaIdFromDatabase = async (areaId: number): Promise<IFetchedEquipment[]> => {
   let queryText = `
     SELECT
       equipments.id,
@@ -128,12 +110,7 @@ export const getEquipmentsByAreaIdFromDatabase = async (
   }
 };
 
-export const updateEquipmentInDatabase = async ({
-  id,
-  name,
-  areaId,
-  isWorking,
-}: IEquipment): Promise<void> => {
+export const updateEquipmentInDatabase = async ({ id, name, areaId, isWorking }: IEquipment): Promise<void> => {
   const queryText = `
     UPDATE equipments
     SET
@@ -151,9 +128,7 @@ export const updateEquipmentInDatabase = async ({
   }
 };
 
-export const deleteEquipmentFromDatabase = async (
-  id: number
-): Promise<void> => {
+export const deleteEquipmentFromDatabase = async (id: number): Promise<void> => {
   const queryText = `
     DELETE FROM equipments
     WHERE id = $1
@@ -167,9 +142,7 @@ export const deleteEquipmentFromDatabase = async (
   }
 };
 
-export const deleteEquipmentBatchFromDatabase = async (
-  ids: number[]
-): Promise<void> => {
+export const deleteEquipmentBatchFromDatabase = async (ids: number[]): Promise<void> => {
   const queryText = `
     DELETE FROM equipments
     WHERE id = ANY($1)
