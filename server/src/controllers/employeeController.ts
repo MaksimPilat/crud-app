@@ -5,7 +5,7 @@ import {
   updateEmployeeInDatabase,
   deleteEmployeeFromDatabase,
 } from "@services";
-import { IEmployee } from "@types";
+import type { IEmployee } from "@types";
 
 export const addEmployee = async (req: Request, res: Response) => {
   const { name, position }: Omit<IEmployee, "id"> = req.body;

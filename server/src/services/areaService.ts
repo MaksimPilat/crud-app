@@ -1,5 +1,5 @@
 import { pool } from "../db";
-import { IArea } from "@types";
+import type { IArea } from "@types";
 
 export const addAreaToDatabase = async (name: string): Promise<IArea> => {
   const queryText = `

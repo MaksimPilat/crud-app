@@ -5,7 +5,7 @@ import {
   updateInspectionInDatabase,
   deleteInspectionFromDatabase,
 } from "@services";
-import { IFetchedInspection, IInspection } from "@types";
+import type { IFetchedInspection, IInspection } from "@types";
 
 export const addInspection = async (req: Request, res: Response) => {
   const { date, equipmentId, employeeId, result, causeOfFailure }: Omit<IInspection, "id"> = req.body;

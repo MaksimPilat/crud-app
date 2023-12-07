@@ -6,7 +6,7 @@ import {
   deleteEquipmentFromDatabase,
   getEquipmentFromDatabase,
 } from "@services";
-import { IEquipment, IFetchedEquipment } from "@types";
+import type { IEquipment, IFetchedEquipment } from "@types";
 
 export const addEquipment = async (req: Request, res: Response) => {
   const { name, areaId, isWorking }: Omit<IEquipment, "id"> = req.body;

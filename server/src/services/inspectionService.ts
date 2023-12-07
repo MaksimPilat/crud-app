@@ -1,5 +1,5 @@
 import { pool } from "../db";
-import { IInspection, IFetchedInspection } from "@types";
+import type { IInspection, IFetchedInspection } from "@types";
 
 export const addInspectionToDatabase = async ({
   date,

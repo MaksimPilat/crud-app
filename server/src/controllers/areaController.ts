@@ -9,7 +9,7 @@ import {
   deleteInspectionBatchFromDatabase,
   getInspectionsByEquipmentIdsFromDatabase,
 } from "@services";
-import { IArea, IFetchedEquipment, IFetchedInspection } from "@types";
+import type { IArea, IFetchedEquipment, IFetchedInspection } from "@types";
 import { pool } from "db";
 import { PoolClient } from "pg";
 
