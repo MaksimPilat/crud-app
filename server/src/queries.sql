@@ -19,6 +19,15 @@ CREATE TABLE equipments(
 TRUNCATE TABLE equipments;
 DROP TABLE equipments;
 
+CREATE TABLE employees(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  position VARCHAR(50) NOT NULL
+);
+
+TRUNCATE TABLE employees;
+DROP TABLE employees;
+
 CREATE TABLE inspections(
   id SERIAL PRIMARY KEY,
   date DATE NOT NULL,
@@ -33,11 +42,11 @@ CREATE TABLE inspections(
 TRUNCATE TABLE inspections;
 DROP TABLE inspections;
 
-CREATE TABLE employees(
+CREATE TABLE users(
   id SERIAL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
-  position VARCHAR(50) NOT NULL
+  password VARCHAR(50) NOT NULL
 );
 
-TRUNCATE TABLE employees;
-DROP TABLE employees;
+TRUNCATE TABLE users;
+DROP TABLE users;
