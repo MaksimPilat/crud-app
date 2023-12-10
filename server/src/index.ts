@@ -1,15 +1,31 @@
-import express, { Express } from "express";
-import cors from "cors";
-import { areasRouter, equipmentsRouter, inspectionsRouter, employeesRouter } from "@routers";
+import express, { Express } from 'express';
+import cors from 'cors';
+import {
+  areasRouter,
+  equipmentsRouter,
+  inspectionsRouter,
+  employeesRouter,
+  authRouter,
+} from '@routers';
+import { authMiddleware } from '@middlewares';
 
 const app: Express = express();
 app.use(cors());
 app.use(express.json());
 
-const port: number = 3001;
+const PORT = process.env.PORT || 3001;
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-app.use("/api", areasRouter, equipmentsRouter, inspectionsRouter, employeesRouter);
+app.use(
+  '/api',
+  authMiddleware,
+  areasRouter,
+  equipmentsRouter,
+  inspectionsRouter,
+  employeesRouter
+);
+
+app.use(authRouter);

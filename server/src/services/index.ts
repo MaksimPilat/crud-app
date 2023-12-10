@@ -3,7 +3,7 @@ export {
   getAllAreasFromDatabase,
   updateAreaInDatabase,
   deleteAreaFromDatabase,
-} from "./areaService";
+} from './areaService';
 export {
   addEquipmentToDatabase,
   getAllEquipmentsFromDatabase,
@@ -12,7 +12,7 @@ export {
   updateEquipmentInDatabase,
   deleteEquipmentFromDatabase,
   deleteEquipmentBatchFromDatabase,
-} from "./equipmentService";
+} from './equipmentService';
 export {
   addInspectionToDatabase,
   getInspectionsByEquipmentIdsFromDatabase,
@@ -20,10 +20,11 @@ export {
   updateInspectionInDatabase,
   deleteInspectionFromDatabase,
   deleteInspectionBatchFromDatabase,
-} from "./inspectionService";
+} from './inspectionService';
 export {
   addEmployeeToDatabase,
   getAllEmployeesFromDatabase,
   updateEmployeeInDatabase,
   deleteEmployeeFromDatabase,
-} from "./employeeService";
+} from './employeeService';
+export { getUser, addUser } from './userService';

@@ -29,7 +29,13 @@ export interface IInspection {
   causeOfFailure?: string;
 }
 
-export interface IFetchedInspection extends Omit<IInspection, "date"> {
+export interface IFetchedInspection extends Omit<IInspection, 'date'> {
   date: string;
   employeeName: string;
+}
+
+export interface IUser {
+  id: number;
+  username: string;
+  password: string;
 }

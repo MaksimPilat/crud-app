@@ -1,11 +1,11 @@
-import { pool } from "../db";
-import type { IEquipment, IFetchedEquipment } from "@types";
+import { pool } from '../db';
+import type { IEquipment, IFetchedEquipment } from '@types';
 
 export const addEquipmentToDatabase = async ({
   name,
   areaId,
   isWorking,
-}: Omit<IEquipment, "id">): Promise<IFetchedEquipment> => {
+}: Omit<IEquipment, 'id'>): Promise<IFetchedEquipment> => {
   const equipmentQueryText = `
     INSERT INTO equipments (name, area_id, is_working)
     VALUES ($1, $2, $3)
@@ -31,7 +31,9 @@ export const addEquipmentToDatabase = async ({
   }
 };
 
-export const getAllEquipmentsFromDatabase = async (isWorking?: boolean): Promise<IFetchedEquipment[]> => {
+export const getAllEquipmentsFromDatabase = async (
+  isWorking?: boolean
+): Promise<IFetchedEquipment[]> => {
   let queryText = `
     SELECT
       equipments.id,
@@ -59,7 +61,9 @@ export const getAllEquipmentsFromDatabase = async (isWorking?: boolean): Promise
   }
 };
 
-export const getEquipmentFromDatabase = async (id: number): Promise<IFetchedEquipment> => {
+export const getEquipmentFromDatabase = async (
+  id: number
+): Promise<IFetchedEquipment> => {
   const queryText = `
     SELECT
       equipments.id,
@@ -86,7 +90,9 @@ export const getEquipmentFromDatabase = async (id: number): Promise<IFetchedEqui
   }
 };
 
-export const getEquipmentsByAreaIdFromDatabase = async (areaId: number): Promise<IFetchedEquipment[]> => {
+export const getEquipmentsByAreaIdFromDatabase = async (
+  areaId: number
+): Promise<IFetchedEquipment[]> => {
   let queryText = `
     SELECT
       equipments.id,
@@ -99,7 +105,7 @@ export const getEquipmentsByAreaIdFromDatabase = async (areaId: number): Promise
     JOIN
       areas ON areas.id = equipments.area_id
     WHERE
-    equipments.area_id = $1
+      equipments.area_id = $1
   `;
   const queryValues = [areaId];
 
@@ -111,7 +117,12 @@ export const getEquipmentsByAreaIdFromDatabase = async (areaId: number): Promise
   }
 };
 
-export const updateEquipmentInDatabase = async ({ id, name, areaId, isWorking }: IEquipment): Promise<void> => {
+export const updateEquipmentInDatabase = async ({
+  id,
+  name,
+  areaId,
+  isWorking,
+}: IEquipment): Promise<void> => {
   const queryText = `
     UPDATE equipments
     SET
@@ -129,7 +140,9 @@ export const updateEquipmentInDatabase = async ({ id, name, areaId, isWorking }:
   }
 };
 
-export const deleteEquipmentFromDatabase = async (id: number): Promise<void> => {
+export const deleteEquipmentFromDatabase = async (
+  id: number
+): Promise<void> => {
   const queryText = `
     DELETE FROM equipments
     WHERE id = $1
@@ -143,7 +156,9 @@ export const deleteEquipmentFromDatabase = async (id: number): Promise<void> => 
   }
 };
 
-export const deleteEquipmentBatchFromDatabase = async (ids: number[]): Promise<void> => {
+export const deleteEquipmentBatchFromDatabase = async (
+  ids: number[]
+): Promise<void> => {
   const queryText = `
     DELETE FROM equipments
     WHERE id = ANY($1)
