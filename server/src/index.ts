@@ -1,10 +1,10 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import {
-  areasRouter,
-  equipmentsRouter,
-  inspectionsRouter,
-  employeesRouter,
+  areaRouter,
+  equipmentRouter,
+  inspectionRouter,
+  employeeRouter,
   authRouter,
 } from '@routers';
 import { authMiddleware } from '@middlewares';
@@ -22,10 +22,10 @@ app.listen(PORT, () => {
 app.use(
   '/api',
   authMiddleware,
-  areasRouter,
-  equipmentsRouter,
-  inspectionsRouter,
-  employeesRouter
+  areaRouter,
+  equipmentRouter,
+  inspectionRouter,
+  employeeRouter
 );
 
 app.use(authRouter);

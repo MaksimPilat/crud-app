@@ -1,4 +1,4 @@
-import { pool } from '../db';
+import { pool } from '@database';
 import type { IUser } from '@types';
 
 export const getUser = async (username: string): Promise<IUser | null> => {

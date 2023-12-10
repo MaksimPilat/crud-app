@@ -1,5 +1,5 @@
-import { pool } from "../db";
-import type { IInspection, IFetchedInspection } from "@types";
+import { pool } from '@database';
+import type { IInspection, IFetchedInspection } from '@types';
 
 export const addInspectionToDatabase = async ({
   date,
@@ -7,7 +7,7 @@ export const addInspectionToDatabase = async ({
   employeeId,
   result,
   causeOfFailure,
-}: Omit<IInspection, "id">): Promise<IFetchedInspection> => {
+}: Omit<IInspection, 'id'>): Promise<IFetchedInspection> => {
   const queryText = `
     INSERT
     INTO inspections (date, equipment_id, employee_id, result, cause_of_failure)
@@ -65,7 +65,9 @@ export const getInspectionsByEquipmentIdsFromDatabase = async (
   }
 };
 
-export const getInspectionsByEmployeeIdFromDatabase = async (employeeId: number): Promise<IFetchedInspection[]> => {
+export const getInspectionsByEmployeeIdFromDatabase = async (
+  employeeId: number
+): Promise<IFetchedInspection[]> => {
   const queryText = `
     SELECT
       inspections.id,
@@ -97,7 +99,7 @@ export const updateInspectionInDatabase = async ({
   employeeId,
   result,
   causeOfFailure,
-}: Omit<IInspection, "equipmentId">): Promise<void> => {
+}: Omit<IInspection, 'equipmentId'>): Promise<void> => {
   const queryText = `
     UPDATE inspections
     SET
@@ -116,7 +118,9 @@ export const updateInspectionInDatabase = async ({
   }
 };
 
-export const deleteInspectionFromDatabase = async (id: number): Promise<void> => {
+export const deleteInspectionFromDatabase = async (
+  id: number
+): Promise<void> => {
   const queryText = `
     DELETE FROM inspections
     WHERE id = $1
@@ -130,7 +134,9 @@ export const deleteInspectionFromDatabase = async (id: number): Promise<void> =>
   }
 };
 
-export const deleteInspectionBatchFromDatabase = async (ids: number[]): Promise<void> => {
+export const deleteInspectionBatchFromDatabase = async (
+  ids: number[]
+): Promise<void> => {
   const queryText = `
     DELETE FROM inspections
     WHERE id = ANY($1)

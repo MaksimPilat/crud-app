@@ -2,10 +2,10 @@ import { Router } from 'express';
 import {
   addEquipment,
   getAllEquipments,
+  getEquipment,
   updateEquipment,
   deleteEquipment,
 } from '@controllers';
-import { getEquipment } from 'controllers/equipmentController';
 
 const equipmentRouter = Router();
 

@@ -14,7 +14,8 @@
       "@services": ["services/index.ts"],
       "@routers": ["routers/index.ts"],
       "@types": ["types.ts"],
-      "@middlewares": ["middlewares/index.ts"]
+      "@middlewares": ["middlewares/index.ts"],
+      "@database": ["database/index.ts"]
     }
   },
   "ts-node": {

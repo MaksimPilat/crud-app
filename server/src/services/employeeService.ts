@@ -1,7 +1,10 @@
-import { pool } from "../db";
-import type { IEmployee } from "@types";
+import { pool } from '../database/db';
+import type { IEmployee } from '@types';
 
-export const addEmployeeToDatabase = async ({ name, position }: Omit<IEmployee, "id">): Promise<IEmployee> => {
+export const addEmployeeToDatabase = async ({
+  name,
+  position,
+}: Omit<IEmployee, 'id'>): Promise<IEmployee> => {
   const queryText = `
     INSERT INTO employees (name, position)
     VALUES ($1, $2)
@@ -35,7 +38,11 @@ export const getAllEmployeesFromDatabase = async (): Promise<IEmployee[]> => {
   }
 };
 
-export const updateEmployeeInDatabase = async ({ id, name, position }: IEmployee): Promise<void> => {
+export const updateEmployeeInDatabase = async ({
+  id,
+  name,
+  position,
+}: IEmployee): Promise<void> => {
   const queryText = `
     UPDATE employees
     SET

@@ -1,4 +1,4 @@
-import { pool } from '../db';
+import { pool } from '../database/db';
 import type { IEquipment, IFetchedEquipment } from '@types';
 
 export const addEquipmentToDatabase = async ({

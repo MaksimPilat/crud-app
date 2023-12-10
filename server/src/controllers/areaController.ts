@@ -10,7 +10,7 @@ import {
   getInspectionsByEquipmentIdsFromDatabase,
 } from '@services';
 import type { IArea, IFetchedEquipment, IFetchedInspection } from '@types';
-import { pool } from 'db';
+import { pool } from '@database';
 import { PoolClient } from 'pg';
 
 export const addArea = async (req: Request, res: Response) => {

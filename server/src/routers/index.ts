@@ -9,19 +9,19 @@ const prefixRouter = (prefix: string, router: Router) => {
   return express.Router().use(prefix, router);
 };
 
-const prefixedAreasRouter = prefixRouter('/areas', areasRouter);
+const prefixedAreaRouter = prefixRouter('/areas', areasRouter);
 const prefixedEquipmentRouter = prefixRouter('/equipments', equipmentsRouter);
-const prefixedInspectionsRouter = prefixRouter(
+const prefixedInspectionRouter = prefixRouter(
   '/inspections',
   inspectionsRouter
 );
-const prefixedEmployeesRouter = prefixRouter('/employees', employeesRouter);
+const prefixedEmployeeRouter = prefixRouter('/employees', employeesRouter);
 const prefixedAuthRouter = prefixRouter('/auth', authRouter);
 
 export {
-  prefixedAreasRouter as areasRouter,
-  prefixedEquipmentRouter as equipmentsRouter,
-  prefixedInspectionsRouter as inspectionsRouter,
-  prefixedEmployeesRouter as employeesRouter,
+  prefixedAreaRouter as areaRouter,
+  prefixedEquipmentRouter as equipmentRouter,
+  prefixedInspectionRouter as inspectionRouter,
+  prefixedEmployeeRouter as employeeRouter,
   prefixedAuthRouter as authRouter,
 };
