@@ -35,15 +35,3 @@ export const addUser = async ({
     throw err;
   }
 };
-
-// export const authenticateUser = async ({
-//   name,
-//   password,
-// }: Pick<IUser, 'name' | 'password'>): Promise<string> => {
-//   // Логика аутентификации пользователя
-//   // Здесь должна быть проверка учетных данных в базе данных
-
-//   const token: string = 'mocked_access_token'; // Здесь должна быть логика создания токена доступа
-
-//   return token; // Вернуть токен доступа при успешной аутентификации
-// };
