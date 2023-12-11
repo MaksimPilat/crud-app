@@ -29,7 +29,10 @@ export const register = async (req: Request, res: Response) => {
         .json({ message: 'User with the same username already exists' });
     }
     const hashPassword = bcrypt.hashSync(password, 7);
-    const newUser: IUser = await addUser({ username, password: hashPassword });
+    const newUser = await addUser({
+      username,
+      password: hashPassword,
+    });
     return res.status(200).json(newUser);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
@@ -53,8 +56,8 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ message: `Invalid password` });
     }
 
-    const token: string = generateAccessToken(user.id);
-    return res.status(200).json(token);
+    const accessToken: string = generateAccessToken(user.id);
+    return res.status(200).json(accessToken);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
     throw err;

@@ -18,7 +18,7 @@ export const addArea = async (req: Request, res: Response) => {
 
   try {
     const newArea: IArea = await addAreaToDatabase(name);
-    res.status(200).json(newArea);
+    return res.status(200).json(newArea);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
     throw err;
@@ -28,7 +28,7 @@ export const addArea = async (req: Request, res: Response) => {
 export const getAllAreas = async (req: Request, res: Response) => {
   try {
     const areas: IArea[] = await getAllAreasFromDatabase();
-    res.status(200).json(areas);
+    return res.status(200).json(areas);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
     throw err;
@@ -44,7 +44,7 @@ export const updateArea = async (req: Request, res: Response) => {
 
   try {
     await updateAreaInDatabase({ id, name });
-    res.status(200).json('Area was updated successfully!');
+    return res.status(200).json('Area was updated successfully!');
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
     throw err;
@@ -76,7 +76,7 @@ export const deleteArea = async (req: Request, res: Response) => {
 
     await client.query('COMMIT');
 
-    res.status(200).json('Area was deleted successfully!');
+    return res.status(200).json('Area was deleted successfully!');
   } catch (err) {
     await client.query('ROLLBACK');
     res.status(500).json({ error: (err as Error).message });

@@ -15,7 +15,7 @@ export const addEmployee = async (req: Request, res: Response) => {
       name,
       position,
     });
-    res.status(200).json(newEmployee);
+    return res.status(200).json(newEmployee);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
     throw err;
@@ -25,7 +25,7 @@ export const addEmployee = async (req: Request, res: Response) => {
 export const getAllEmployees = async (req: Request, res: Response) => {
   try {
     const employees: IEmployee[] = await getAllEmployeesFromDatabase();
-    res.status(200).json(employees);
+    return res.status(200).json(employees);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
     throw err;
@@ -41,7 +41,7 @@ export const updateEmployee = async (req: Request, res: Response) => {
   try {
     const { name, position }: Omit<IEmployee, 'id'> = req.body;
     await updateEmployeeInDatabase({ id, name, position });
-    res.status(200).json('Employee was updated successfully!');
+    return res.status(200).json('Employee was updated successfully!');
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
     throw err;
@@ -56,7 +56,7 @@ export const deleteEmployee = async (req: Request, res: Response) => {
 
   try {
     await deleteEmployeeFromDatabase(id);
-    res.status(200).json('Employee was deleted successfully!');
+    return res.status(200).json('Employee was deleted successfully!');
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
     throw err;

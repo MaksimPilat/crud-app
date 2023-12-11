@@ -1,4 +1,4 @@
-import { pool } from '../database/db';
+import { pool } from '@database';
 import type { IEmployee } from '@types';
 
 export const addEmployeeToDatabase = async ({

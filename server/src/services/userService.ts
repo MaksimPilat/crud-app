@@ -20,11 +20,11 @@ export const getUser = async (username: string): Promise<IUser | null> => {
 export const addUser = async ({
   username,
   password,
-}: Omit<IUser, 'id'>): Promise<IUser> => {
+}: Omit<IUser, 'id'>): Promise<Omit<IUser, 'password'>> => {
   const queryText = `
     INSERT INTO users (username, password)
     VALUES ($1, $2)
-    RETURNING *
+    RETURNING id, username;
   `;
   const queryValues = [username, password];
 

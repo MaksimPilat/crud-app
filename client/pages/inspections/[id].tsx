@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Toast, { IToast, ToastType } from "../../components/Toast";
-import Loader from "../../components/Loader";
-import Table from "../../components/Table";
-import InspectionRow from "../../components/InspectionRow";
-import Layout from "../../components/Layout";
-import InspectionEditor from "../../components/InspectionEditor";
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Toast, { IToast, ToastType } from '../../components/Toast';
+import Loader from '../../components/Loader';
+import Table from '../../components/Table';
+import InspectionRow from '../../components/InspectionRow';
+import Layout from '../../components/Layout';
+import InspectionEditor from '../../components/InspectionEditor';
 import {
   IFetchedInspection,
   IInspection,
@@ -13,8 +13,8 @@ import {
   deleteInspection,
   getAllInspections,
   updateInspection,
-} from "../../api/inspections";
-import { IEquipment, getEquipment } from "../../api/equipments";
+} from '../../api/inspections';
+import { IEquipment, getEquipment } from '../../api/equipments';
 
 interface IInspectionsPageData {
   equipmentId: number;
@@ -23,10 +23,17 @@ interface IInspectionsPageData {
 }
 
 const Inspections: React.FC = () => {
-  const [data, setData] = useState<IInspectionsPageData>({ equipmentId: NaN, equipmentName: "", inspections: [] });
+  const [data, setData] = useState<IInspectionsPageData>({
+    equipmentId: NaN,
+    equipmentName: '',
+    inspections: [],
+  });
   const [loader, setLoader] = useState<boolean>(true);
-  const [toast, setToast] = useState<IToast>({ message: "" });
-  const [editor, setEditor] = useState<{ data?: Omit<IFetchedInspection, "equipmentId">; isOpen: boolean }>({
+  const [toast, setToast] = useState<IToast>({ message: '' });
+  const [editor, setEditor] = useState<{
+    data?: Omit<IFetchedInspection, 'equipmentId'>;
+    isOpen: boolean;
+  }>({
     isOpen: false,
   });
 
@@ -39,27 +46,37 @@ const Inspections: React.FC = () => {
   const fetchData = async (): Promise<void> => {
     let equipmentId: number = Number(router.query.id);
     if (isNaN(equipmentId)) {
-      const match: RegExpMatchArray | null = window.location.pathname.match(/\/inspections\/(\d+)/);
+      const match: RegExpMatchArray | null =
+        window.location.pathname.match(/\/inspections\/(\d+)/);
       equipmentId = match ? Number(match[1]) : NaN;
     }
     if (isNaN(equipmentId)) return;
 
     try {
-      const { name: equipmentName }: IEquipment = await getEquipment(equipmentId);
-      const inspections: IFetchedInspection[] = await getAllInspections(equipmentId);
+      const { name: equipmentName }: IEquipment = await getEquipment(
+        equipmentId
+      );
+      const inspections: IFetchedInspection[] = await getAllInspections(
+        equipmentId
+      );
       setData({ equipmentId: equipmentId, equipmentName, inspections });
     } catch (err) {
-      showToast({ type: ToastType.Error, message: "Error while fetching data." });
+      showToast({
+        type: ToastType.Error,
+        message: 'Error while fetching data.',
+      });
       console.error(err);
     }
   };
 
-  const addData = async (fetchedInspection: Omit<IFetchedInspection, "id">) => {
+  const addData = async (fetchedInspection: Omit<IFetchedInspection, 'id'>) => {
     const { employeeName, ...rest } = fetchedInspection;
 
-    const formattedInspection: Omit<IInspection, "id"> = {
+    const formattedInspection: Omit<IInspection, 'id'> = {
       ...rest,
-      date: fetchedInspection.date ? new Date(fetchedInspection.date) : new Date(),
+      date: fetchedInspection.date
+        ? new Date(fetchedInspection.date)
+        : new Date(),
     };
 
     try {
@@ -68,7 +85,7 @@ const Inspections: React.FC = () => {
       const inspectionForTable: IFetchedInspection = {
         ...fetchedInspection,
         id,
-        date: formattedInspection.date.toISOString().split("T")[0],
+        date: formattedInspection.date.toISOString().split('T')[0],
       };
       setData(({ inspections, ...rest }) => ({
         ...rest,
@@ -76,10 +93,10 @@ const Inspections: React.FC = () => {
       }));
       showToast({
         type: ToastType.Success,
-        message: "Inspection has been added successfully.",
+        message: 'Inspection has been added successfully.',
       });
     } catch (err) {
-      showToast({ type: ToastType.Error, message: "Error while adding data." });
+      showToast({ type: ToastType.Error, message: 'Error while adding data.' });
       console.error(err);
     } finally {
       setLoader(false);
@@ -96,14 +113,19 @@ const Inspections: React.FC = () => {
       await updateInspection(newInspection);
       setData(({ inspections, ...rest }) => ({
         ...rest,
-        inspections: inspections.map((item) => (item.id === newInspection.id ? fetchedInspection : item)),
+        inspections: inspections.map((item) =>
+          item.id === newInspection.id ? fetchedInspection : item
+        ),
       }));
       showToast({
         type: ToastType.Success,
-        message: "Inspection has been updated successfully.",
+        message: 'Inspection has been updated successfully.',
       });
     } catch (err) {
-      showToast({ type: ToastType.Error, message: "Error while updating data." });
+      showToast({
+        type: ToastType.Error,
+        message: 'Error while updating data.',
+      });
       console.error(err);
     } finally {
       setLoader(false);
@@ -115,13 +137,19 @@ const Inspections: React.FC = () => {
     try {
       setLoader(true);
       await deleteInspection(id);
-      setData(({ inspections, ...rest }) => ({ ...rest, inspections: inspections.filter((item) => item.id !== id) }));
+      setData(({ inspections, ...rest }) => ({
+        ...rest,
+        inspections: inspections.filter((item) => item.id !== id),
+      }));
       showToast({
         type: ToastType.Success,
-        message: "Inspection has been removed successfully.",
+        message: 'Inspection has been removed successfully.',
       });
     } catch (err) {
-      showToast({ type: ToastType.Error, message: "Error while deleting data." });
+      showToast({
+        type: ToastType.Error,
+        message: 'Error while deleting data.',
+      });
       console.error(err);
     } finally {
       setLoader(false);
@@ -131,7 +159,7 @@ const Inspections: React.FC = () => {
   const showToast = ({ type, message }: IToast) => {
     setToast({ type, message });
     setTimeout(() => {
-      setToast({ message: "" });
+      setToast({ message: '' });
     }, 3000);
   };
 
@@ -152,17 +180,33 @@ const Inspections: React.FC = () => {
           {data.equipmentName} (#{router.query.id})
         </h1>
         <div className="flex justify-between">
-          <a onClick={router.back} className="text-lg link link-accent link-hover">
+          <a
+            onClick={router.back}
+            className="text-lg link link-accent link-hover"
+          >
             Back
           </a>
-          <label onClick={() => openEditor()} className="btn btn-sm btn-neutral px-12 w-10" htmlFor="my_modal_6">
+          <label
+            onClick={() => openEditor()}
+            className="btn btn-sm btn-neutral px-12 w-10"
+            htmlFor="my_modal_6"
+          >
             Add
           </label>
         </div>
         {loader ? (
           <Loader />
         ) : (
-          <Table columnNames={["", "Date", "Employee Name", "Result", "Cause Of Failure", "Actions"]}>
+          <Table
+            columnNames={[
+              '',
+              'Date',
+              'Employee Name',
+              'Result',
+              'Cause Of Failure',
+              'Actions',
+            ]}
+          >
             {data.inspections.map((item: IFetchedInspection, index: number) => (
               <InspectionRow
                 key={item.id}
@@ -189,7 +233,9 @@ const Inspections: React.FC = () => {
           equipmentId={data.equipmentId}
           onCancel={closeEditorWithDelay}
           onApply={(data) =>
-            editor.data ? editData(data as IFetchedInspection) : addData(data as Omit<IFetchedInspection, "id">)
+            editor.data
+              ? editData(data as IFetchedInspection)
+              : addData(data as Omit<IFetchedInspection, 'id'>)
           }
         />
       )}

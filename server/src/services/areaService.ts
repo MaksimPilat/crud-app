@@ -1,4 +1,4 @@
-import { pool } from '../database/db';
+import { pool } from '@database';
 import type { IArea } from '@types';
 
 export const addAreaToDatabase = async (name: string): Promise<IArea> => {

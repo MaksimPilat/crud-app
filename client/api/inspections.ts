@@ -1,3 +1,5 @@
+import { getAuthHeaders } from './helper';
+
 export interface IInspection {
   id: number;
   date: Date;
@@ -7,18 +9,20 @@ export interface IInspection {
   causeOfFailure?: string;
 }
 
-export interface IFetchedInspection extends Omit<IInspection, "date"> {
+export interface IFetchedInspection extends Omit<IInspection, 'date'> {
   date: string;
   employeeName: string;
 }
 
-export const addInspection = async (reqData: Omit<IInspection, "id">): Promise<IInspection> => {
+const URL = 'http://localhost:3001/api/data/inspections/';
+
+export const addInspection = async (
+  reqData: Omit<IInspection, 'id'>
+): Promise<IInspection> => {
   try {
-    const res: Response = await fetch(`http://localhost:3001/api/inspections/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const res: Response = await fetch(URL, {
+      method: 'POST',
+      headers: getAuthHeaders(),
       body: JSON.stringify(reqData),
     });
     const newEquipment: IInspection = await res.json();
@@ -28,9 +32,14 @@ export const addInspection = async (reqData: Omit<IInspection, "id">): Promise<I
   }
 };
 
-export const getAllInspections = async (equipmentId: number): Promise<IFetchedInspection[]> => {
+export const getAllInspections = async (
+  equipmentId: number
+): Promise<IFetchedInspection[]> => {
   try {
-    const res: Response = await fetch(`http://localhost:3001/api/inspections/${equipmentId}`);
+    const res: Response = await fetch(URL + equipmentId, {
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error(((await res.json()) as Error).message);
     const data: IFetchedInspection[] = await res.json();
     return data;
   } catch (err) {
@@ -47,12 +56,16 @@ export const updateInspection = async ({
   causeOfFailure,
 }: IInspection): Promise<void> => {
   try {
-    const res: Response = await fetch(`http://localhost:3001/api/inspections/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ date, equipmentId, employeeId, result, causeOfFailure } as Omit<IInspection, "id">),
+    const res: Response = await fetch(URL + id, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({
+        date,
+        equipmentId,
+        employeeId,
+        result,
+        causeOfFailure,
+      } as Omit<IInspection, 'id'>),
     });
   } catch (err) {
     throw err;
@@ -61,11 +74,9 @@ export const updateInspection = async ({
 
 export const deleteInspection = async (id: number): Promise<void> => {
   try {
-    const res: Response = await fetch(`http://localhost:3001/api/inspections/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const res: Response = await fetch(URL + id, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
     });
   } catch (err) {
     throw err;

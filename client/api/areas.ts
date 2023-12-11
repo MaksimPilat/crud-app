@@ -1,15 +1,17 @@
+import { getAuthHeaders } from './helper';
+
 export interface IArea {
   id: number;
   name: string;
 }
 
-export const addArea = async (reqData: Omit<IArea, "id">): Promise<IArea> => {
+const URL = 'http://localhost:3001/api/data/areas/';
+
+export const addArea = async (reqData: Omit<IArea, 'id'>): Promise<IArea> => {
   try {
-    const res: Response = await fetch(`http://localhost:3001/api/areas/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const res: Response = await fetch(URL, {
+      method: 'POST',
+      headers: getAuthHeaders(),
       body: JSON.stringify(reqData),
     });
     const newArea: IArea = await res.json();
@@ -21,7 +23,10 @@ export const addArea = async (reqData: Omit<IArea, "id">): Promise<IArea> => {
 
 export const getAllAreas = async () => {
   try {
-    const res: Response = await fetch("http://localhost:3001/api/areas");
+    const res: Response = await fetch(URL, {
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error(((await res.json()) as Error).message);
     const data: IArea[] = await res.json();
     return data;
   } catch (err) {
@@ -31,12 +36,10 @@ export const getAllAreas = async () => {
 
 export const updateArea = async ({ id, name }: IArea): Promise<void> => {
   try {
-    const res: Response = await fetch(`http://localhost:3001/api/areas/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name } as Omit<IArea, "id">),
+    const res: Response = await fetch(URL + id, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ name } as Omit<IArea, 'id'>),
     });
   } catch (err) {
     throw err;
@@ -45,11 +48,9 @@ export const updateArea = async ({ id, name }: IArea): Promise<void> => {
 
 export const deleteArea = async (id: number): Promise<void> => {
   try {
-    const res: Response = await fetch(`http://localhost:3001/api/areas/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const res: Response = await fetch(URL + id, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
     });
   } catch (err) {
     throw err;

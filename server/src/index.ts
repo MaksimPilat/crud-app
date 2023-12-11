@@ -1,4 +1,4 @@
-import express, { Express } from 'express';
+import express, { Express, Router } from 'express';
 import cors from 'cors';
 import {
   areaRouter,
@@ -19,13 +19,13 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-app.use(
-  '/api',
-  authMiddleware,
-  areaRouter,
-  equipmentRouter,
-  inspectionRouter,
-  employeeRouter
-);
+const dataRouter = express.Router();
 
-app.use(authRouter);
+dataRouter.use(authMiddleware);
+dataRouter.use('/areas', areaRouter);
+dataRouter.use('/equipments', equipmentRouter);
+dataRouter.use('/inspections', inspectionRouter);
+dataRouter.use('/employees', employeeRouter);
+
+app.use('/api/data', dataRouter);
+app.use('/api/auth', authRouter);

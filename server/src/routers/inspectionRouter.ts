@@ -6,11 +6,9 @@ import {
   deleteInspection,
 } from '@controllers';
 
-const inspectionRouter = Router();
+export const inspectionRouter = Router();
 
 inspectionRouter.post('/', addInspection);
 inspectionRouter.get('/:id', getEquipmentInspections);
 inspectionRouter.put('/:id', updateInspection);
 inspectionRouter.delete('/:id', deleteInspection);
-
-export default inspectionRouter;
